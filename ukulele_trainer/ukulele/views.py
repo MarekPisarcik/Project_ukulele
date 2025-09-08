@@ -5,3 +5,6 @@ from django.template import loader
 
 def home(request,):
     return render(request, 'ukulele/index.html')
+
+def trainer(request,):
+    return render(request, 'ukulele/trainer.html')

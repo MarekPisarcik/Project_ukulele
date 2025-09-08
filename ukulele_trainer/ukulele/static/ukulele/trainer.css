@@ -1,0 +1,139 @@
+
+
+
+
+
+.fretboard {
+    position: relative;
+    width: 800px;
+    height: 250px;
+    background-image: url("pictures/fretboard_image.jpg");
+    background-size: cover;
+    margin: auto;
+    
+}
+
+.strings {
+    position: absolute;
+    width: calc(100% - 50px);
+    height: 100%;
+    display: flex;
+    z-index: 5;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20%;
+    padding: 0px 0;
+    z-index: 5;
+    height: 100%;
+}
+
+.string_A {
+    width: 800px;
+    height: 2px;
+    background-color: #fafafa;
+    border-radius: 15%;
+    box-shadow: 1px 1px 3px #888888;
+}
+
+.string_E {
+    width: 800px;
+    height: 3px;
+    background-color: #fafafa;
+    border-radius: 15%;
+    box-shadow: 1px 1px 3px #888888;    
+}
+
+.string_C {
+    width: 800px;
+    height: 5px;
+    background-color: #fafafa;
+    border-radius: 15%;
+    box-shadow: 1px 1px 3px #888888;
+}
+
+.string_G {
+    width: 800px;
+    height: 7px;
+    background-color: #c91b04;
+    border-radius: 15%;
+    box-shadow: 2px 2px 5px #888888;
+}
+
+.frets {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+    width: calc(100% - 50px);
+    position: absolute;
+    top: 0;
+    left: 0px;
+    z-index: 6;
+}
+
+.fret_0, .fret_1, .fret_2, .fret_3, .fret_4, .fret_5, .fret_6, .fret_7, .fret_8, .fret_9, .fret_10, .fret_11, .fret_12 {
+    width: 5px;
+    height: 100%;
+    background-color: silver;
+}
+.fret_0 {
+    width: 18px;
+    background-color: #918d89;
+}
+
+.fret_5, .fret_7, .fret_10, .fret_12 {
+    position: relative;
+}
+
+.fret_mark {
+    width: 15px;
+    height: 15px;
+    background-color: black;
+    border-radius: 50%;
+    position: absolute;
+    top: 48%;
+    left: -509%;
+    transform: translate(-50%, -50%);
+}
+
+
+.strings_names {
+    position: absolute;
+    top: 25px;
+    left: -30px;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    color: rgb(8, 6, 6);
+    text-shadow: rgb(8, 6, 6) 2px 2px 3px;
+}
+
+
+.notes_container {
+    position: absolute;
+    top: -2px;
+    left: 0px;
+    width: 103%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    justify-content: space-evenly;
+}
+
+.note_row {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.note {
+   width: 20px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 2px solid #000;
+    border-radius: 50%;
+}
