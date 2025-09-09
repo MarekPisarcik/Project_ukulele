@@ -9,7 +9,26 @@
     {% block css_index %}{% endblock css_index %}
 </head>
 <body>
+    <header>
+        <nav>
+            <a href="{% url 'home' %}">Domov</a>
+            {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="border: none; background: none; color: inherit; cursor: pointer;">Odhlásiť sa</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Prihlásiť sa</a>
+            {% endif %}
+            <a href="{% url 'register' %}">Registrovať sa</a>
+            <a href="{% url 'trainer' %}">Tréner</a>
+        </nav>
+    </header>
     {% block heading %}{% endblock heading %}
+    {% block login %}{% endblock login %}
+    {% block logout %}{% endblock logout %}
+    {% block register  %}{% endblock register  %}
+    {% block trainer %}{% endblock trainer %}
     
 
 

@@ -1,0 +1,10 @@
+{% extends "ukulele/base.html" %}
+
+{% block login %}
+    <h2>Prihlásenie</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Prihlásiť sa</button>
+    </form>
+{% endblock login %}
