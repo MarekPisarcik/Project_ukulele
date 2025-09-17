@@ -3,11 +3,13 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.template import loader
 from django.contrib.auth import login
 from .forms import CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def home(request,):
     return render(request, 'ukulele/index.html')
 
+@login_required
 def trainer(request,):
     return render(request, 'ukulele/trainer.html')
 
@@ -22,3 +24,5 @@ def register(request):
         form = CustomUserCreationForm()
     
     return render(request, "ukulele/register.html", {"form": form})
+
+
