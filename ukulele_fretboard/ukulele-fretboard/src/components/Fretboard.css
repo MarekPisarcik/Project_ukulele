@@ -138,14 +138,15 @@
     transition: 0.4s;
 }
     
-.note.clicked {
+.note.correct-answer {
     transform: scale(1.7);
     background-color: #ffeb3b;
     border-color: #fbc02d;
     box-shadow: 0 0 10px #fbc02d;
 }
 
-.note:hover:not(.clicked) {
+
+.note:hover:not(.incorrect-answer) {
         cursor: pointer;
         transform: scale(1.2);
         background-color: #33806c;
@@ -153,10 +154,23 @@
         box-shadow: 0 0 10px #fbc02d;
 }
 
-.note.clicked p {
+.note.incorrect-answer p {
     display: block;
     font-size: 0.5em;
     font-weight: bold;
     color: #000;
 }
 
+.incorrect-answer {
+    animation: shake 0.5s;
+    transform: scale(1.7);
+    background-color: #ce0a1a;
+    border-color: #c55616;
+    box-shadow: 0 0 10px #be3d09;
+}
+
+.highlight-correct {
+    border: 3px solid green !important;
+    background-color: rgba(0, 255, 0, 0.4);
+    transition: all 0.2s ease-in-out;
+}

@@ -1,39 +1,41 @@
+import React, { useState, useEffect } from 'react';
 
-import React, { useState } from "react";
-
-
-const Note = (props) => {
+const Note = ({ className, name, string, currentQuestion, answerStatus, handleAnswer, isGameRunning }) => {
     const [isClicked, setIsClicked] = useState(false);
 
+    useEffect(() => {
+        setIsClicked(false);
+    }, [currentQuestion]);
+
     const handleClick = () => {
-        setIsClicked(!isClicked);
-
-        const userAnswer = {
-            note: props.name,
-            string: props.string
-        };
-
-        fetch('http://localhost:8000/api/check_note/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userAnswer),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+        if (!isGameRunning) {
+            return; 
+        }
+        
+        console.log(`KLIK NA NOTU: ${name}${string}`);
+        
+        handleAnswer(name, string);
     };
 
-    const className = props.className + (isClicked ? " clicked" : "");
+    const isCorrectAnswerHighlight = answerStatus && 
+                                     !answerStatus.is_correct &&
+                                     answerStatus.correct_note === name && 
+                                     answerStatus.correct_string === string;
 
     return (
-        <div className={className} onClick={handleClick}>
-            {isClicked ? <p>{props.name}</p> : null}
+        <div 
+            className={`
+                ${className} 
+                ${isClicked ? 'incorrect-click' : ''} 
+                ${isCorrectAnswerHighlight ? 'highlight-correct' : ''}
+                ${answerStatus && name === answerStatus.correct_note && string === answerStatus.correct_string 
+                    ? 'correct-answer' 
+                    : ''
+                }
+            `} 
+            onClick={handleClick}
+        >
+            {isClicked ? <p>{name}</p> : null}
         </div>
     );
 }
