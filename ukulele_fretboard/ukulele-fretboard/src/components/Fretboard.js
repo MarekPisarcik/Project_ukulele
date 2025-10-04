@@ -36,11 +36,19 @@ const AllFretboard = () => {
     }
     
     const handleContinue = () => {
-        setAwaitingNextRound(false); 
-        setAnswerStatus(null); 
+    // 1. NAJPRV sa rozhodneme, čo robiť
+    if (currentRound === 10) {
+        // Ak je kolo 10, hru UKONČÍME
+        setIsGameRunning(false);
+    } else {
+        // Ak kolo NIE JE 10, POKRAČUJEME
+        setAwaitingNextRound(false);
+        setAnswerStatus(null);
         setCurrentQuestion({ string: '', note: '' });
-        getQuestion(); 
-    };
+        getQuestion();
+        setCurrentRound(prevRound => prevRound + 1);
+    }
+};
 
     const handleAnswer = async (noteName, noteString) => {
     
@@ -57,7 +65,7 @@ const AllFretboard = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:8000/api/check_note/', {
+            const response = await fetch('/api/check_note/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,6 +79,7 @@ const AllFretboard = () => {
             }
 
             const data = await response.json();
+            setAwaitingNextRound(true);
             
             setAnswerStatus(data);
             
@@ -78,16 +87,7 @@ const AllFretboard = () => {
                 setScore(prevScore => prevScore + 1);
         }
 
-        setCurrentRound(prevRound => {
-            const nextRound = prevRound + 1;
-
-            if (nextRound <= 10) {
-                setAwaitingNextRound(true);
-            } else {
-                setIsGameRunning(false);
-            }
-            return nextRound;
-        });
+        
 
     } catch (error) {
         console.error('Error pri spracovaní odpovede:', error);
@@ -146,7 +146,7 @@ const AllFretboard = () => {
                         onClick={handleContinue}
                     >
                         <h2>{answerStatus.message}</h2>
-                        <p>Klikni pre pokračovanie na Kolo {currentRound + 1}</p>
+                        <button>{(currentRound === 10 ? 'Koniec' : `Klikni pre pokračovanie na Kolo ${currentRound + 1}`)}</button>
                     </div>
                 )}
 
@@ -159,72 +159,84 @@ const AllFretboard = () => {
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_a_2" name="B" string="A"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_a_3" name="C" string="A"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_a_4" name="C#/Db" string="A"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_a_5" name="D" string="A"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_a_6" name="D#/Eb" string="A"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_a_7" name="E" string="A"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_a_8" name="F" string="A"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_a_9" name="F#/Gb" string="A"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_a_10" name="G" string="A"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_a_11" name="G#/Ab" string="A"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_a_12" name="A" string="A"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <div className="note note_a_13"></div>
                         </div>
@@ -234,147 +246,171 @@ const AllFretboard = () => {
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_e_2" name="F#/Gb" string="E"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_e_3" name="G" string="E"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_e_4" name="G#/Ab" string="E"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_e_5" name="A" string="E"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_e_6" name="A#/Bb" string="E"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_e_7" name="B" string="E"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_e_8" name="C" string="E"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_e_9" name="C#/Db" string="E"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_e_10" name="D" string="E"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_e_11" name="D#/Eb" string="E"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_e_12" name="E" string="E"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <div className="note note_e_13"></div>
                         </div>
                         <div className="note_row note_c">
-                            <Note className="note note_c_1" name="C#" string="C"
+                            <Note className="note note_c_1" name="C#/Db" string="C"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_c_2" name="D" string="C"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_c_3" name="D#/Eb" string="C"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_c_4" name="E" string="C"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_c_5" name="F" string="C"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_c_6" name="F#/Gb" string="C"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_c_7" name="G" string="C"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_c_8" name="G#/Ab" string="C"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_c_9" name="A" string="C"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_c_10" name="A#/Bb" string="C"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_c_11" name="B" string="C"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_c_12" name="C" string="C"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <div className="note note_c_13"></div>
                         </div>
@@ -384,72 +420,84 @@ const AllFretboard = () => {
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_g_2" name="A" string="G"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_g_3" name="A#/Bb" string="G"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_g_4" name="B" string="G"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_g_5" name="C" string="G"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_g_6" name="C#/Db" string="G"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_g_7" name="D" string="G"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_g_8" name="D#/Eb" string="G"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_g_9" name="E" string="G"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_g_10" name="F" string="G"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_g_11" name="F#/Gb" string="G"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <Note className="note note_g_12" name="G" string="G"
                                 currentQuestion={currentQuestion}
                                 answerStatus={answerStatus}
                                 handleAnswer={handleAnswer}
                                 isGameRunning={isGameRunning}
+                                awaitingNextRound={awaitingNextRound}
                             />
                             <div className="note note_g_13"></div>
                         </div>

@@ -1,0 +1,10 @@
+{% extends "ukulele/base.html" %}
+{% load static %}
+
+{% block profile  %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save changes</button>
+    </form>
+{% endblock profile %}

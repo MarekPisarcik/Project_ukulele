@@ -1,10 +1,11 @@
-
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'ukulele/base.css' %}">
     {% block title_index %}{% endblock title_index %}
     {% block css_index %}{% endblock css_index %}
 </head>
@@ -15,13 +16,14 @@
             {% if user.is_authenticated %}
                 <form action="{% url 'logout' %}" method="post" style="display: inline;">
                     {% csrf_token %}
-                    <button type="submit" style="border: none; background: none; color: inherit; cursor: pointer;">Odhlásiť sa</button>
+                    <button class="nav-button" type="submit" >Odhlásiť sa</button>
                 </form>
             {% else %}
                 <a href="{% url 'login' %}">Prihlásiť sa</a>
             {% endif %}
             <a href="{% url 'register' %}">Registrovať sa</a>
             <a href="{% url 'trainer' %}">Tréner</a>
+            <a href="{% url 'edit_profile' %}">Profil</a>
         </nav>
     </header>
     {% block heading %}{% endblock heading %}
@@ -29,13 +31,15 @@
     {% block logout %}{% endblock logout %}
     {% block register  %}{% endblock register  %}
     {% block trainer %}{% endblock trainer %}
+    {% block profile  %}{% endblock profile  %}
+    
     
 
 
 
 
     <footer>
-        <p>© 2024 Ukulele Trainer</p>
+        <p>© 2025 Ukulele Trainer</p>
     </footer>
 </body>
 </html>

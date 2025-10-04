@@ -9,6 +9,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import random
 from .ukulele_data import FRETBOARD_NOTES
+from .forms import ProfileForm
+from .models import Profile
 
 # Create your views here.
 
@@ -17,7 +19,7 @@ def home(request,):
 
 @login_required
 def trainer(request,):
-    return render(request, 'ukulele/trainer.html')
+    return render(request, 'index.html')
 
 def register(request):
     if request.method == "POST":
@@ -79,3 +81,24 @@ def check_note(request):
             return JsonResponse({'error': 'Neplatný JSON. Skontrolujte Content-Type.'}, status=400)
         
     return JsonResponse({'error': 'Neplatná požiadavka. Používajte POST.'}, status=405)
+
+@login_required
+def edit_profile(request):
+    try:
+        profile = request.user.profile
+    except Profile.DoesNotExist:
+        profile = Profile.objects.create(user=request.user)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    
+    
+    else:
+        form = ProfileForm(instance=profile)
+
+    
+    return render(request, 'ukulele/edit_profile.html', {'form': form})
+            

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Note = ({ className, name, string, currentQuestion, answerStatus, handleAnswer, isGameRunning }) => {
+const Note = ({ className, name, string, currentQuestion, answerStatus, handleAnswer, isGameRunning, awaitingNextRound }) => {
     const [isClicked, setIsClicked] = useState(false);
 
     useEffect(() => {
@@ -8,6 +8,10 @@ const Note = ({ className, name, string, currentQuestion, answerStatus, handleAn
     }, [currentQuestion]);
 
     const handleClick = () => {
+        if (awaitingNextRound) {
+            return;
+        }
+        
         if (!isGameRunning) {
             return; 
         }
@@ -15,6 +19,7 @@ const Note = ({ className, name, string, currentQuestion, answerStatus, handleAn
         console.log(`KLIK NA NOTU: ${name}${string}`);
         
         handleAnswer(name, string);
+        setIsClicked(true);
     };
 
     const isCorrectAnswerHighlight = answerStatus && 
@@ -26,7 +31,8 @@ const Note = ({ className, name, string, currentQuestion, answerStatus, handleAn
         <div 
             className={`
                 ${className} 
-                ${isClicked ? 'incorrect-click' : ''} 
+                ${isClicked ? 'incorrect-click' : ''}
+                ${isClicked && answerStatus && !answerStatus.is_correct ? 'incorrect-answer' : ''} 
                 ${isCorrectAnswerHighlight ? 'highlight-correct' : ''}
                 ${answerStatus && name === answerStatus.correct_note && string === answerStatus.correct_string 
                     ? 'correct-answer' 
